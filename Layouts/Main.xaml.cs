@@ -1,6 +1,7 @@
 ﻿using savichev17pr.Classes;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,9 +24,37 @@ namespace savichev17pr.Layouts
     /// </summary>
     public partial class Main : Page
     {
-        public Main()
+        public MainWindow mainWindow;
+        public List<Dish> dishs = new List<Dish>();
+        public Main(MainWindow _mainWindow)
         {
             InitializeComponent();
+            mainWindow = _mainWindow;
+
+            Dish newDish = new Dish();
+            newDish.img = "img-1";
+            newDish.name = "Сливочная";
+            newDish.description = "Пицца - итальянское национальное блюдо в виде круглой открытой дрожжевой лепёшки";
+
+            Dish.Ingredient newIngredient = new Dish.Ingredient(); newIngredient.name = "coуc «Кунжутный»>"; newDish.ingredients.Add(newIngredient);
+            newIngredient = new Dish.Ingredient(); newIngredient.name = "cup «Mоцарелла»>"; newDish.ingredients.Add(newIngredient);
+            newIngredient = new Dish.Ingredient(); newIngredient.name = "сыр «Моцарелла» мягкий"; newDish.ingredients.Add(newIngredient);
+            newIngredient = new Dish.Ingredient(); newIngredient.name = "помидоры"; newDish.ingredients.Add(newIngredient);
+            Dish.Sizes newSize = new Dish.Sizes();
+            newSize.size = 23; newSize.price = 380; newSize.wes = 530;
+            newDish.sizes.Add(newSize);
+            newSize = new Dish.Sizes();
+            newSize.size = 30;
+            newSize.price = 760; newSize.wes = 560;
+            newDish.sizes.Add(newSize);
+            newSize = new Dish.Sizes();
+            newSize.size = 40;
+            newSize.price = 1210;
+            newSize.wes = 730;
+            newDish.sizes.Add(newSize);
+
+            dishs.Add(newDish);
+            CreatePizza();
         }
 
         public void CreatePizza()
@@ -40,10 +69,12 @@ namespace savichev17pr.Layouts
                 if (i > 0) global.Margin = new Thickness(0, 10, 0, 0);
 
                 Image logo = new Image();
-                if (File.Exists(mainWindow.localPath + @"\image\dish" + dishs[i].img + ".png"))
-                    logo.Source = new BitmapImage(new Uri(mainWindow.localPath + @"\image\dish" + dishs[i].img + ".png"));
+                if (File.Exists(mainWindow.localPath + @"\image\dish\" + dishs[i].img + ".png"))
+                    logo.Source = new BitmapImage(new Uri(mainWindow.localPath + @"\image\dish\" + dishs[i].img + ".png"));
                 else
+                {
                     logo.Source = new BitmapImage(new Uri(mainWindow.localPath + @"\image\icon.png"));
+                }
                 logo.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
                 logo.Height = 50;
                 logo.Margin = new Thickness(10, 10, 0, -10);
@@ -87,16 +118,16 @@ namespace savichev17pr.Layouts
                 }
 
                 Label price = new Label();
-                price.Content = "Цена: " + dishs[i].sizes[0].price = " р.";
+                price.Content = "Цена: " + dishs[i].sizes[0].price + " р.";
                 price.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
-                price.VerticalAlignment = System.Windows.VerticalAlignment.Top;
+                price.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
                 price.Margin = new Thickness(65, 0, 0, 10);
                 global.Children.Add(price);
 
                 Label wes = new Label();
-                wes.Content = "Вес: " + dishs[i].sizes[0].wes = " г.";
+                wes.Content = "Вес: " + dishs[i].sizes[0].wes + " г.";
                 wes.HorizontalAlignment = System.Windows.HorizontalAlignment.Left;
-                wes.VerticalAlignment = System.Windows.VerticalAlignment.Top;
+                wes.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
                 wes.Margin = new Thickness(236, 0, 0, 10);
                 global.Children.Add(wes);
 
@@ -124,10 +155,10 @@ namespace savichev17pr.Layouts
                     button1.Background = Brushes.White;
                     button1.Foreground = (Brush)bc.ConvertFrom("#FFDD3333");
 
-                    button2.Background = Brushes.White;
-                    button2.Foreground = (Brush)bc.ConvertFrom("#FFDD3333");
-                    button3.Background = Brushes.White;
-                    button3.Foreground = (Brush)bc.ConvertFrom("#FFDD3333");
+                    button2.Foreground = Brushes.White;
+                    button2.Background = (Brush)bc.ConvertFrom("#FFDD3333");
+                    button3.Foreground = Brushes.White;
+                    button3.Background = (Brush)bc.ConvertFrom("#FFDD3333");
 
                     dishs[int.Parse(button1.Tag.ToString())].activeSize = 0;
                     count.Text = dishs[int.Parse(button1.Tag.ToString())].sizes[0].countOrder.ToString();
@@ -148,10 +179,10 @@ namespace savichev17pr.Layouts
                     button2.Background = Brushes.White;
                     button2.Foreground = (Brush)bc.ConvertFrom("#FFDD3333");
 
-                    button1.Background = Brushes.White;
-                    button1.Foreground = (Brush)bc.ConvertFrom("#FFDD3333");
-                    button3.Background = Brushes.White;
-                    button3.Foreground = (Brush)bc.ConvertFrom("#FFDD3333");
+                    button1.Foreground = Brushes.White;
+                    button1.Background = (Brush)bc.ConvertFrom("#FFDD3333");
+                    button3.Foreground = Brushes.White;
+                    button3.Background = (Brush)bc.ConvertFrom("#FFDD3333");
 
                     dishs[int.Parse(button1.Tag.ToString())].activeSize = 1;
                     count.Text = dishs[int.Parse(button1.Tag.ToString())].sizes[1].countOrder.ToString();
@@ -172,10 +203,10 @@ namespace savichev17pr.Layouts
                     button3.Background = Brushes.White;
                     button3.Foreground = (Brush)bc.ConvertFrom("#FFDD3333");
 
-                    button1.Background = Brushes.White;
-                    button1.Foreground = (Brush)bc.ConvertFrom("#FFDD3333");
-                    button2.Background = Brushes.White;
-                    button2.Foreground = (Brush)bc.ConvertFrom("#FFDD3333");
+                    button1.Foreground = Brushes.White;
+                    button1.Background = (Brush)bc.ConvertFrom("#FFDD3333");
+                    button2.Foreground = Brushes.White;
+                    button2.Background = (Brush)bc.ConvertFrom("#FFDD3333");
 
                     dishs[int.Parse(button1.Tag.ToString())].activeSize = 2;
                     count.Text = dishs[int.Parse(button1.Tag.ToString())].sizes[2].countOrder.ToString();
@@ -207,7 +238,7 @@ namespace savichev17pr.Layouts
                 count.Text = "0";
                 count.HorizontalAlignment = HorizontalAlignment.Right;
                 count.VerticalAlignment = VerticalAlignment.Bottom;
-                count.Margin = new Thickness(0, 0, 33.6f, 0);
+                count.Margin = new Thickness(0, 0, 33.6f, 10);
                 count.TextWrapping = TextWrapping.Wrap;
                 count.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
                 count.Width = 65;
@@ -239,7 +270,7 @@ namespace savichev17pr.Layouts
                 order.Content = "Выбрать";
                 order.HorizontalAlignment = HorizontalAlignment.Right;
                 order.VerticalAlignment = VerticalAlignment.Bottom;
-                order.Margin = new Thickness(0, 0, 128, 3);
+                order.Margin = new Thickness(0, 0, 128, 13);
                 order.Tag = i;
                 order.Click += delegate
                 {
